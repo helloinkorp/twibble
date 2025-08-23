@@ -26,6 +26,15 @@ This plan tracks the current milestone and next, mapping directly to PRD.md and 
 
 2.1/2.2/2.3 setup, then move to M1 implementation.
 
+## Next Phase: Agent/Automation Implementation
+
+**Phase 3 Kickoff Tasks:**
+- Generate 5 subagents in /.claude/agents/ (code-reviewer, test-engineer, docs-generator, devops-agent, ux-a11y-auditor)
+- Generate 4 commands in /.claude/commands/ (/checkpoint, /generate-prp, /compact, /prepare-deploy)  
+- Generate 2 hooks in /.claude/hooks/ (after-agent-run, pre-deploy)
+- Each with full front-matter, permissions, tools, and implementation logic
+- Integrate with M1 development workflow
+
 ## Risks / Decisions
 
 API keys scoped to teacher-only features; ensure no student PII stored.
