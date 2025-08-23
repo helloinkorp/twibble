@@ -1,0 +1,11 @@
+{
+  "name": "pre-deploy",
+  "description": "Quality gates before deployment",
+  "triggers": ["deploy", "prepare-deploy"],
+  "sequence": [
+    "test-engineer",
+    "code-reviewer", 
+    "ux-a11y-auditor"
+  ],
+  "policy": "if any fail: block deployment and print summaries; else continue"
+}
