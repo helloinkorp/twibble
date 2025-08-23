@@ -8,6 +8,13 @@
 • Mobile-first, accessible UI; offline-first PWA; never block progress due to missing assets
 • Students do not sign up; progress is local; privacy-first
 
+## Plan-First Policy
+
+• **Every new feature/change must start with `/generate-prp` and an approved PRP in PLAN.md**
+• **Implementation requests without a PRP are declined** with instructions to run `/generate-prp <feature>`
+• **All PRPs must anchor to PRD.md, FUNCTIONAL_SPEC.md, DESIGNSYSTEM.md, and CLAUDE.md**
+• **Acceptance criteria must be specific, testable, and mapped to Functional Spec**
+
 ## Code Rules
 
 • **TypeScript + ES modules:** strict typing; no deprecated APIs
@@ -35,6 +42,7 @@
 ## Subagents
 
 Use specialized agents with minimal permissions; run in parallel when possible:
+• **planning-engineer:** PRP generation, PLAN.md updates, requirements anchoring
 • **code-reviewer:** ESM compliance, accessibility, security validation
 • **test-engineer:** cross-platform testing, performance benchmarks
 • **docs-generator:** maintain PRD/spec alignment, API documentation
