@@ -23,6 +23,61 @@
 
 ---
 
+## 📋 **Design System Contracts**
+
+### **Implementation Contract**
+**ALL developers and contributors agree to:**
+
+1. **Zero Deviation Policy**: Components MUST be implemented exactly as specified
+2. **Token-Only Policy**: NO hardcoded colors, spacing, or typography values
+3. **Accessibility Contract**: ALL implementations MUST meet WCAG 2.1 AA standards
+4. **Mobile-First Contract**: ALL components MUST work on 320px+ viewports
+5. **Performance Contract**: Design implementations MUST stay within CSS budget (≤100KB)
+
+### **Design System Compliance**
+**Required before ANY UI implementation:**
+- [ ] Design tokens validated against DESIGN_SYSTEM.md
+- [ ] Color contrast ratios measured (4.5:1 minimum)
+- [ ] Touch targets confirmed 44px+ on mobile
+- [ ] Focus states implemented and tested
+- [ ] Screen reader compatibility verified
+
+### **Violation Consequences**
+- **Code Review Blocking**: Non-compliant code will be rejected
+- **Deployment Blocking**: UI violations prevent production deployment
+- **Required Remediation**: All violations must be fixed before merge
+
+---
+
+## 🔄 **Change Control Process**
+
+### **Design System Governance**
+- **Design System Owner**: Lead Developer/Designer
+- **Change Authority**: Requires approval from system owner
+- **Documentation**: All changes must update this document
+- **Backwards Compatibility**: Changes must not break existing implementations
+
+### **Change Request Process**
+1. **Issue Creation**: Document the need for change with specific use cases
+2. **Impact Assessment**: Analyze effects on existing components
+3. **Stakeholder Review**: Get approval from design system owner
+4. **Documentation Update**: Update this file with new specifications
+5. **Implementation**: Roll out changes across all components
+6. **Validation**: Test all affected components for compliance
+
+### **Emergency Changes**
+For critical accessibility or performance issues:
+- Immediate fixes allowed with post-hoc documentation
+- Must create tracking issue within 24 hours
+- Full review and documentation within 1 week
+
+### **Deprecation Policy**
+- **6-month notice**: All breaking changes require advance warning
+- **Migration path**: Provide clear upgrade instructions
+- **Support timeline**: Old patterns supported during transition period
+
+---
+
 ## 🌈 **Color System**
 
 ### **Brand Colors**

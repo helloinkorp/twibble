@@ -58,7 +58,7 @@ Assemble new lesson via any mix of input methods with advanced word management
 
 **Layout/Elements:**
 - Three accordion sections (expand/collapse with smooth transitions):
-  1. **Manual Entry** (EXPANDED by default)
+  1. **Manual Entry** (collapsed)
   2. **File Import** (collapsed)
   3. **OCR (Image)** (collapsed)
 

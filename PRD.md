@@ -89,7 +89,7 @@ Twibble is a vocabulary learning web app with distinct, optimized flows for teac
 
 ## 8. Non-Product (now external)
 
-> **Design system, UI component, visual, CSS, and file/build structure rules are contained in external documentation (`DESIGN_SYSTEM.md`, `BUILD_GUIDELINES.md`).**  
+> **Design system, UI component, visual, CSS, and file/build structure rules are contained in external documentation (`DESIGN_SYSTEM.md`, `BUILD_GUIDELINES.md` `FUNCTIONAL_SPEC.md`).**  
 > Refer to those for all implementation, style, or technical integration norms.
 
 ***

@@ -36,6 +36,88 @@ Twibble is a vocabulary learning web app with distinct, optimized flows for teac
 
 ---
 
+## **🛡️ Design System Compliance Safety Net**
+
+### **MANDATORY OVERLAY FOR ALL FUNCTIONAL SPECIFICATIONS**
+
+**Every UI component and interaction specified in this document MUST conform to DESIGN_SYSTEM.md contracts. This section serves as a comprehensive safety net to ensure no design system violations occur during implementation.**
+
+### **Universal Design System Requirements**
+
+#### **🎨 Visual Compliance (ALL Components)**
+- **Colors**: ONLY use CSS custom properties from DESIGN_SYSTEM.md tokens
+- **Spacing**: ONLY use `--space-*` tokens, NO hardcoded pixel values
+- **Typography**: ONLY use `--font-size-*` and `--font-weight-*` tokens
+- **Borders**: ONLY use `--radius-*` tokens for border-radius
+- **Shadows**: ONLY use `--shadow-*` tokens for box-shadow
+
+#### **♿ Accessibility Compliance (ALL Interactive Elements)**
+- **Color Contrast**: Minimum 4.5:1 ratio for all text (measured and verified)
+- **Touch Targets**: Minimum 44px × 44px on mobile for ALL interactive elements
+- **Focus States**: Visible focus indicators using design system focus patterns
+- **Screen Readers**: Proper ARIA labels and semantic HTML structure
+
+#### **📱 Mobile-First Compliance (ALL Layouts)**
+- **Responsive Behavior**: Components must work from 320px viewport width
+- **Touch Interactions**: All drag-and-drop must work with touch gestures
+- **Typography**: Font sizes must scale appropriately across breakpoints
+
+### **Component-Level Enforcement**
+
+#### **🔍 Pre-Implementation Validation**
+**Before implementing ANY component in this spec:**
+1. **Reference Check**: Identify corresponding DESIGN_SYSTEM.md component
+2. **Token Validation**: List all required design tokens for the component
+3. **Accessibility Check**: Confirm WCAG 2.1 AA compliance plan
+4. **Mobile Check**: Verify responsive behavior specifications
+
+#### **🚫 Implementation Blocking Rules**
+**BLOCK implementation if:**
+- Component uses hardcoded colors, spacing, or typography
+- Color contrast ratios are not measured and documented
+- Touch targets are smaller than 44px on mobile
+- Focus states are not implemented per design system specs
+- Component deviates from DESIGN_SYSTEM.md patterns
+
+#### **✅ Compliance Validation Checklist**
+**For every component implementation:**
+- [ ] All CSS values use design system tokens (no hardcoded values)
+- [ ] Color contrast ratios measured and meet 4.5:1 minimum
+- [ ] Touch targets confirmed ≥44px on mobile devices
+- [ ] Focus states implemented using design system patterns
+- [ ] Component matches DESIGN_SYSTEM.md specifications exactly
+- [ ] Responsive behavior tested from 320px to 1280px
+- [ ] Screen reader compatibility verified with actual testing
+
+### **Functional Specification Override Policy**
+
+#### **🔄 Specification Updates**
+- **Design System Changes**: When DESIGN_SYSTEM.md is updated, ALL affected specifications in this document MUST be updated to maintain consistency
+- **Conflict Resolution**: Design system requirements ALWAYS take precedence over functional specifications
+- **Change Propagation**: Updates to design system components require review of ALL sections in this specification
+
+#### **🎯 Implementation Priority**
+1. **Design System Compliance** (HIGHEST - Non-negotiable)
+2. **Accessibility Requirements** (HIGHEST - Non-negotiable) 
+3. **Functional Behavior** (HIGH - Specified in sections below)
+4. **Performance Requirements** (HIGH - Meet technical constraints)
+5. **Enhancement Features** (MEDIUM - Optional improvements)
+
+### **Safety Net Activation**
+
+**This safety net is activated automatically by:**
+- Code review processes (code-reviewer agent)
+- Pre-deployment validation (/prepare-deploy command)
+- UI conformance script (BUILD_GUIDELINES.md)
+- Manual implementation reviews
+
+**Violations will result in:**
+- Implementation rejection and required remediation
+- Deployment blocking until compliance achieved
+- Required design system education and re-review
+
+---
+
 ## **🏠 1. Home Page (`index.html`)**
 
 ### **Purpose**

@@ -4,6 +4,59 @@
 
 This plan tracks the current milestone and next, mapping directly to PRD.md and FUNCTIONAL_SPEC.md.
 
+## 🚫 **PLAN-FIRST ENFORCEMENT**
+
+### **Mandatory Pre-Implementation Policy**
+**NO DEVELOPMENT WORK may begin without:**
+1. **Approved PRP in PLAN.md** - Every feature/change must have a Pull Request Proposal
+2. **Design System Validation** - All UI work must reference DESIGN_SYSTEM.md contracts
+3. **Requirements Traceability** - Clear links to PRD.md and FUNCTIONAL_SPEC.md
+4. **Acceptance Criteria** - Specific, testable, measurable outcomes defined
+
+### **Implementation Request Handling**
+**If asked to implement WITHOUT a PRP:**
+- ❌ **REFUSE the implementation request**
+- ✅ **INSTRUCT**: "Run `/generate-prp <feature>` first"
+- ✅ **BLOCK**: Development until proper planning completed
+- ✅ **REDIRECT**: Point to this policy and PRP requirements
+
+### **Design-System-First Gates**
+**ALL UI implementation MUST:**
+- [ ] Reference specific DESIGN_SYSTEM.md components and tokens
+- [ ] Complete design system compliance checklist
+- [ ] Validate color contrast (4.5:1 minimum)
+- [ ] Confirm touch targets (44px+ mobile)
+- [ ] Test screen reader compatibility
+
+**UI work WITHOUT design system compliance will be REJECTED**
+
+## 🔍 **PRPs (Pull Request Proposals)**
+
+### **Active PRPs**
+*All approved features ready for implementation*
+
+1. **[M1] App Infrastructure**
+   - **Status**: Planning
+   - **Requirements**: App skeleton, routing, role select, localStorage
+   - **Design Impact**: Core layout system, navigation components
+   - **Acceptance**: Functional routing between pages, localStorage working
+
+### **Pending PRPs**
+*Awaiting approval or clarification*
+
+*(None currently)*
+
+### **PRP Template Requirements**
+Each PRP must include:
+- **Goal** (aligned to PRD.md)
+- **Non-Goals** (scope boundaries)
+- **User Stories** (mapped to Functional Spec)
+- **Acceptance Criteria** (testable requirements)
+- **Dependencies** (prerequisite work)
+- **Design System Impact** (affected components/tokens)
+- **Risks & Mitigations**
+- **Test Strategy**
+
 ## Current Milestone (M1 → M8)
 
 **M1:** App skeleton, routing, role select, teacher dashboard list, localStorage infra.

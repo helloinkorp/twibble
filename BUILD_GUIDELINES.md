@@ -1,6 +1,6 @@
-# Build Guidelines: Technical Architecture
+# Build Guidelines - Authoritative Reference
 
-*Your definitive technical guide for building scalable, maintainable web applications*
+*Definitive technical architecture and build guidelines for Twibble vocabulary learning web application*
 
 ---
 
@@ -512,6 +512,259 @@ const testScenarios = [
 - [ ] Mobile responsiveness verified (320px, 768px, 1024px)
 - [ ] Cross-browser testing completed
 - [ ] Accessibility standards met (WCAG 2.1 AA minimum)
+
+---
+
+## 🎯 **UI Conformance Validation**
+
+### **Design System Compliance Script**
+
+#### **✅ TEMPLATE: UI Conformance Checker (ui-conformance.js)**
+```javascript
+// ui-conformance.js - Lightweight design system validation
+const UIConformanceChecker = {
+    
+    // Configuration
+    DESIGN_TOKENS_FILE: 'css/tokens.css',
+    COMPLIANCE_RULES: {
+        hardcodedValues: {
+            colors: /#[0-9a-f]{3,6}/gi,
+            spacing: /\d+(px|rem|em)/gi,
+            fontSize: /font-size:\s*\d+(px|rem|em)/gi
+        },
+        accessibility: {
+            minContrastRatio: 4.5,
+            minTouchTarget: 44
+        }
+    },
+    
+    // Main validation function
+    async validateCompliance(cssFiles = []) {
+        console.log('🔍 Running UI conformance validation...');
+        
+        const results = {
+            passed: true,
+            violations: [],
+            warnings: [],
+            summary: {}
+        };
+        
+        try {
+            // 1. Check for hardcoded values
+            const hardcodedViolations = await this.checkHardcodedValues(cssFiles);
+            if (hardcodedViolations.length > 0) {
+                results.passed = false;
+                results.violations.push(...hardcodedViolations);
+            }
+            
+            // 2. Validate color contrast (placeholder)
+            const contrastViolations = await this.checkColorContrast();
+            results.warnings.push(...contrastViolations);
+            
+            // 3. Check touch targets (placeholder)
+            const touchTargetViolations = await this.checkTouchTargets();
+            results.warnings.push(...touchTargetViolations);
+            
+            // 4. Validate design token usage
+            const tokenViolations = await this.checkDesignTokenUsage(cssFiles);
+            results.violations.push(...tokenViolations);
+            
+            results.summary = {
+                violations: results.violations.length,
+                warnings: results.warnings.length,
+                filesChecked: cssFiles.length
+            };
+            
+            this.reportResults(results);
+            return results;
+            
+        } catch (error) {
+            console.error('UI conformance check failed:', error);
+            return { passed: false, error: error.message };
+        }
+    },
+    
+    // Check for hardcoded CSS values
+    async checkHardcodedValues(cssFiles) {
+        const violations = [];
+        
+        for (const file of cssFiles) {
+            try {
+                const cssContent = await this.readFile(file);
+                const rules = this.COMPLIANCE_RULES.hardcodedValues;
+                
+                // Check for hardcoded colors
+                const colorMatches = cssContent.match(rules.colors);
+                if (colorMatches) {
+                    violations.push({
+                        type: 'hardcoded-color',
+                        file: file,
+                        violations: colorMatches,
+                        message: 'Use CSS custom properties (--color-*) instead of hardcoded colors'
+                    });
+                }
+                
+                // Check for hardcoded spacing
+                const spacingMatches = cssContent.match(rules.spacing);
+                if (spacingMatches) {
+                    const filteredSpacing = spacingMatches.filter(match => 
+                        !match.includes('var(--') && !match.includes('0px')
+                    );
+                    if (filteredSpacing.length > 0) {
+                        violations.push({
+                            type: 'hardcoded-spacing',
+                            file: file,
+                            violations: filteredSpacing,
+                            message: 'Use spacing tokens (--space-*) instead of hardcoded values'
+                        });
+                    }
+                }
+                
+            } catch (error) {
+                console.warn(`Could not read file ${file}:`, error.message);
+            }
+        }
+        
+        return violations;
+    },
+    
+    // Placeholder: Color contrast validation
+    async checkColorContrast() {
+        // TODO: Implement automated color contrast checking
+        // This would analyze computed styles and measure contrast ratios
+        return []; // Return contrast violations
+    },
+    
+    // Placeholder: Touch target validation
+    async checkTouchTargets() {
+        // TODO: Implement touch target size checking
+        // This would check all interactive elements for 44px+ targets
+        return []; // Return touch target violations
+    },
+    
+    // Placeholder: Design token usage validation
+    async checkDesignTokenUsage(cssFiles) {
+        const violations = [];
+        // TODO: Cross-reference CSS usage with DESIGN_SYSTEM.md tokens
+        // Ensure all values come from approved design token list
+        return violations;
+    },
+    
+    // File reading utility (Node.js or browser compatible)
+    async readFile(filePath) {
+        if (typeof require !== 'undefined') {
+            // Node.js environment
+            const fs = require('fs').promises;
+            return await fs.readFile(filePath, 'utf8');
+        } else {
+            // Browser environment
+            const response = await fetch(filePath);
+            return await response.text();
+        }
+    },
+    
+    // Report validation results
+    reportResults(results) {
+        console.log('\n🎯 UI Conformance Report');
+        console.log('========================');
+        
+        if (results.passed) {
+            console.log('✅ All UI conformance checks passed!');
+        } else {
+            console.log(`❌ ${results.violations.length} violations found`);
+        }
+        
+        if (results.warnings.length > 0) {
+            console.log(`⚠️  ${results.warnings.length} warnings to review`);
+        }
+        
+        // Detail violations
+        results.violations.forEach(violation => {
+            console.log(`\n🔸 ${violation.type} in ${violation.file}`);
+            console.log(`   ${violation.message}`);
+            if (violation.violations) {
+                violation.violations.forEach(v => console.log(`   - ${v}`));
+            }
+        });
+        
+        console.log('\n📊 Summary:');
+        console.log(`   Files checked: ${results.summary.filesChecked}`);
+        console.log(`   Violations: ${results.summary.violations}`);
+        console.log(`   Warnings: ${results.summary.warnings}`);
+    }
+};
+
+// CLI usage (Node.js)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = UIConformanceChecker;
+    
+    // Run if called directly
+    if (require.main === module) {
+        const cssFiles = process.argv.slice(2) || ['css/components.css', 'css/base.css'];
+        UIConformanceChecker.validateCompliance(cssFiles);
+    }
+}
+
+// Browser usage
+if (typeof window !== 'undefined') {
+    window.UIConformanceChecker = UIConformanceChecker;
+}
+```
+
+### **Usage Instructions**
+
+#### **Command Line (Development)**
+```bash
+# Check specific CSS files
+node ui-conformance.js css/components.css css/base.css
+
+# Check all CSS files (requires glob)
+node -e "
+const glob = require('glob');
+const checker = require('./ui-conformance.js');
+const files = glob.sync('css/*.css');
+checker.validateCompliance(files);
+"
+```
+
+#### **Integration with Build Process**
+```javascript
+// In your build script
+const UIConformanceChecker = require('./ui-conformance.js');
+
+const buildProcess = async () => {
+    // ... other build steps
+    
+    // UI Conformance validation
+    const cssFiles = ['css/components.css', 'css/base.css', 'css/utilities.css'];
+    const conformanceResults = await UIConformanceChecker.validateCompliance(cssFiles);
+    
+    if (!conformanceResults.passed) {
+        console.error('❌ Build failed: UI conformance violations detected');
+        process.exit(1); // Block build on violations
+    }
+    
+    console.log('✅ UI conformance validation passed');
+    // ... continue build
+};
+```
+
+#### **Integration with Commands**
+```javascript
+// Add to checkpoint.md and prepare-deploy.md workflows
+// This script will be called automatically during:
+// - /checkpoint command (before commit)
+// - /prepare-deploy command (before deployment)
+// - CI/CD pipeline (automated builds)
+```
+
+### **Future Enhancements**
+
+**Phase 1 (Current)**: Hardcoded value detection
+**Phase 2**: Color contrast automation with WCAG validation
+**Phase 3**: Touch target size measurement using DOM analysis
+**Phase 4**: Design token cross-reference with DESIGN_SYSTEM.md
+**Phase 5**: Visual regression testing integration
 
 ---
 

@@ -12,6 +12,11 @@ permissions: write docs only
 
 • **Update PLAN.md task status and next steps.**
 
+• **Document Design System Compliance**: Track adherence in PLAN.md
+  - Record design system validation results for completed tasks
+  - Flag any design system debt or violations for future cleanup
+  - Update PRP status with design system compliance confirmation
+
 • **Append shipped notes to ROADMAP.md after releases.**
 
 • **Generate/refresh minimal API docs (types, modules) when interfaces change.**

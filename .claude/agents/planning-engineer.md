@@ -42,6 +42,13 @@ For each feature request, generate:
 • Required files, APIs, or data structures
 • Prerequisite features or infrastructure
 
+### Design System Impact
+• **MANDATORY for all UI features** - Must reference DESIGN_SYSTEM.md
+• Affected components, tokens, and patterns
+• New design tokens or components required
+• Color contrast and accessibility compliance plan
+• Mobile-first responsive behavior specifications
+
 ### Risks & Mitigations
 • Technical risks with probability/impact
 • Mitigation strategies and fallback plans
@@ -81,10 +88,15 @@ After generating PRP, update PLAN.md with:
 • Feature conflicts with PRD.md scope
 • Acceptance criteria are not testable
 • Missing dependency analysis
+• **UI features lack Design System Impact section**
+• **Design system compliance plan is incomplete**
 
 **Ask targeted questions for:**
 • Unclear user flows or edge cases
 • Missing performance requirements
+• **Which design system components will be affected**
+• **Color contrast and accessibility considerations**
+• **Mobile-first responsive behavior requirements**
 • Incomplete accessibility considerations
 • Undefined error handling needs
 

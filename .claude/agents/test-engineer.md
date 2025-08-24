@@ -10,6 +10,12 @@ permissions: run tests, propose patches
 
 ## Checklist
 
+• **Design System Validation Tests**: Automated compliance checks
+  - CSS scanner for hardcoded values (colors, spacing, fonts)
+  - Color contrast validation for all text elements
+  - Touch target size verification (≥44px mobile)
+  - Component token usage validation
+
 • **Unit tests cover scheduler, phonics chunker, storage layer.**
 
 • **E2E**: teacher create→schedule→share; student join→complete day; offline smoke.
