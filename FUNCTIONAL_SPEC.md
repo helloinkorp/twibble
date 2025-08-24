@@ -4,6 +4,126 @@
 
 ---
 
+## **📖 How to Use This Document**
+
+**For Implementers**: This specification provides detailed requirements for every page and feature in Twibble. Follow this workflow:
+
+1. **Locate your target**: Use the [Table of Contents](#table-of-contents) to find the specific page or feature section
+2. **Cross-check fundamentals**: Before coding, review:
+   - [Shared Patterns](#shared-patterns) - Common UI/UX patterns used across pages
+   - [API Integration & Fallback System](#api-integration--fallback-system-assets) - Asset loading and caching
+   - [Error Handling & Edge Cases](#error-handling--edge-cases-errors) - Expected failure scenarios
+3. **Anchor to authority docs**:
+   - **PRD.md** - Product scope and business requirements
+   - **DESIGN_SYSTEM.md** - UI tokens, components, accessibility standards
+   - **CLAUDE.md** - Development rules, PWA requirements, testing gates
+4. **Validate compliance**: Every implementation MUST pass the [Design System Compliance Safety Net](#design-system-compliance-safety-net)
+
+**Navigation aids**: Look for bracketed finder tags (e.g., [teacher], [assets], [tts]) to quickly locate relevant sections.
+
+---
+
+## **📑 Table of Contents**
+
+- [📋 Overview](#overview)
+- [🎯 Core Requirements](#core-requirements)
+  - [User Roles](#user-roles)
+  - [Technical Architecture](#technical-architecture)
+  - [Activity Sequence (Per Day)](#activity-sequence-per-day)
+- [🛡️ Design System Compliance Safety Net](#design-system-compliance-safety-net)
+  - [MANDATORY OVERLAY FOR ALL FUNCTIONAL SPECIFICATIONS](#mandatory-overlay-for-all-functional-specifications)
+  - [Universal Design System Requirements](#universal-design-system-requirements)
+  - [Component-Level Enforcement](#component-level-enforcement)
+  - [Functional Specification Override Policy](#functional-specification-override-policy)
+  - [Safety Net Activation](#safety-net-activation)
+- [🏠 1. Home Page (`index.html`)](#1-home-page-indexhtml-home)
+  - [Purpose](#purpose)
+  - [UI Components](#ui-components)
+  - [Behavior](#behavior)
+  - [Data Schema](#data-schema)
+- [👩‍🏫 2. Teacher Dashboard (`teacher-dashboard.html`)](#2-teacher-dashboard-teacher-dashboardhtml-teacher)
+  - [Purpose](#purpose-1)
+  - [UI Components](#ui-components-1)
+  - [Lesson Card Component](#lesson-card-component)
+  - [Behavior](#behavior-1)
+  - [Data Schema](#data-schema-1)
+- [📝 3. Create Lesson (`create-lesson.html`)](#3-create-lesson-create-lessonhtml-teacher-create)
+  - [Purpose](#purpose-2)
+  - [Accordion Structure](#accordion-structure)
+  - [Word Grid Component](#word-grid-component)
+  - [Word Chip System](#word-chip-system)
+  - [Behavior](#behavior-2)
+  - [File Import Processing](#file-import-processing)
+  - [OCR Integration](#ocr-integration-ocr)
+- [📅 4. Schedule Lesson (`schedule-lesson.html`)](#4-schedule-lesson-schedule-lessonhtml-teacher-schedule)
+  - [Purpose](#purpose-3)
+  - [UI Components](#ui-components-3)
+  - [Day Card Component](#day-card-component)
+  - [Auto-Distribution Algorithm](#auto-distribution-algorithm)
+  - [Validation Rules](#validation-rules)
+  - [Manual Adjustment](#manual-adjustment)
+- [📋 5. Lesson Summary (`lesson-summary.html`)](#5-lesson-summary-lesson-summaryhtml-teacher-share)
+  - [Purpose](#purpose-4)
+  - [UI Components](#ui-components-4)
+  - [Behavior](#behavior-4)
+- [👨‍🎓 6. Student Dashboard (`student-dashboard.html`)](#6-student-dashboard-student-dashboardhtml-student)
+  - [Purpose](#purpose-5)
+  - [UI Components](#ui-components-5)
+  - [Student Lesson Card](#student-lesson-card)
+  - [Day Button States](#day-button-states)
+  - [Progress Calculation](#progress-calculation)
+  - [Data Schema](#data-schema-5)
+- [🔗 7. Student Lesson Handler (`student-lesson.html`)](#7-student-lesson-handler-student-lessonhtml-student)
+  - [Purpose](#purpose-6)
+  - [UI Components](#ui-components-6)
+  - [URL Processing Logic](#url-processing-logic)
+  - [Error States](#error-states)
+- [🎮 8. Lesson Activity (`lesson-activity.html`)](#8-lesson-activity-lesson-activityhtml-student-activity)
+  - [Purpose](#purpose-7)
+  - [Activity Flow Architecture](#activity-flow-architecture)
+  - [Main Activity Container](#main-activity-container)
+  - [8.1 Vocabulary Activities](#81-vocabulary-activities-vocab)
+  - [8.2 Phonics Activities](#82-phonics-activities-phonics)
+  - [8.3 Spelling Activities](#83-spelling-activities-spelling)
+  - [Activity Flow Management](#activity-flow-management)
+  - [Asset Preloading System](#asset-preloading-system-assets)
+- [📊 9. Data Schemas & Storage](#9-data-schemas--storage-data)
+  - [Lesson Data Schema](#lesson-data-schema)
+  - [Student Progress Schema](#student-progress-schema)
+  - [Storage Management](#storage-management)
+- [🔧 10. API Integration & Fallback System](#10-api-integration--fallback-system-assets)
+  - [Asset Loading Priority](#asset-loading-priority)
+  - [Consolidated Words Data Structure](#consolidated-words-data-structure)
+  - [Asset Manager Implementation](#asset-manager-implementation)
+  - [Phonics Chunks Data Structure](#phonics-chunks-data-structure-phonics)
+  - [Phonics Chunk Manager](#phonics-chunk-manager)
+- [🔍 11. Error Handling & Edge Cases](#11-error-handling--edge-cases-errors)
+  - [Media Asset Failures](#media-asset-failures)
+  - [Data Corruption Recovery](#data-corruption-recovery)
+  - [Network & Storage Failures](#network--storage-failures)
+  - [Activity Flow Interruption](#activity-flow-interruption)
+- [♿ 12. Accessibility Implementation](#12-accessibility-implementation-a11y)
+  - [Screen Reader Support](#screen-reader-support)
+  - [Keyboard Navigation](#keyboard-navigation)
+  - [High Contrast Mode](#high-contrast-mode)
+  - [Voice Control Support](#voice-control-support-tts)
+- [📱 13. Mobile Optimization](#13-mobile-optimization-mobile)
+  - [Touch Interaction Patterns](#touch-interaction-patterns)
+  - [Responsive Activity Layouts](#responsive-activity-layouts)
+  - [Performance Optimization for Mobile](#performance-optimization-for-mobile)
+- [🔄 14. Progressive Web App (PWA) Implementation](#14-progressive-web-app-pwa-implementation-pwa)
+  - [Service Worker Strategy](#service-worker-strategy)
+  - [Manifest Configuration](#manifest-configuration)
+  - [Background Sync Implementation](#background-sync-implementation)
+  - [Installation Prompt](#installation-prompt)
+
+### **📚 Quick Reference Indices**
+
+- [Index of Key Data Structures](#index-of-key-data-structures) - Core data types and schemas
+- [Acceptance Criteria Quick Index](#acceptance-criteria-quick-index) - All acceptance criteria by page
+
+---
+
 ## **📋 Overview**
 
 Twibble is a vocabulary learning web app with distinct, optimized flows for teachers and students. Teachers create, schedule, and share interactive lessons while students join instantly via link/QR with no signup required, progressing through daily vocabulary, phonics, and spelling activities.
@@ -118,7 +238,7 @@ Twibble is a vocabulary learning web app with distinct, optimized flows for teac
 
 ---
 
-## **🏠 1. Home Page (`index.html`)**
+## **🏠 1. Home Page (`index.html`)** [home]
 
 ### **Purpose**
 Role selection entry point for the application.
@@ -164,7 +284,13 @@ const UserRole = {
 
 ---
 
-## **👩‍🏫 2. Teacher Dashboard (`teacher-dashboard.html`)**
+### **See Also**
+- [Teacher Dashboard](#2-teacher-dashboard-teacher-dashboardhtml-teacher) - Next step for teachers
+- [Student Dashboard](#6-student-dashboard-student-dashboardhtml-student) - Next step for students
+
+---
+
+## **👩‍🏫 2. Teacher Dashboard (`teacher-dashboard.html`)** [teacher]
 
 ### **Purpose**
 Central management hub for teacher's lessons and activities.
@@ -262,7 +388,13 @@ const TeacherLesson = {
 
 ---
 
-## **📝 3. Create Lesson (`create-lesson.html`)**
+### **See Also**
+- [Create Lesson](#3-create-lesson-create-lessonhtml-teacher-create) - Primary teacher workflow
+- [Data Schemas & Storage](#9-data-schemas--storage-data) - Lesson data structure
+
+---
+
+## **📝 3. Create Lesson (`create-lesson.html`)** [teacher] [create]
 
 ### **Purpose**
 Multi-modal lesson creation with manual entry, file import, and OCR capabilities.
@@ -496,7 +628,7 @@ const FileProcessor = {
 };
 ```
 
-### **OCR Integration**
+### **OCR Integration** [ocr]
 ```javascript
 const OCRProcessor = {
   async extractText(imageFile) {
@@ -515,7 +647,13 @@ const OCRProcessor = {
 
 ---
 
-## **📅 4. Schedule Lesson (`schedule-lesson.html`)**
+### **See Also**
+- [Schedule Lesson](#4-schedule-lesson-schedule-lessonhtml-teacher-schedule) - Next step after creation
+- [API Integration & Fallback System](#10-api-integration--fallback-system-assets) - Asset loading for words
+
+---
+
+## **📅 4. Schedule Lesson (`schedule-lesson.html`)** [teacher] [schedule]
 
 ### **Purpose**
 Distribute words across lesson days using smart algorithms with manual adjustment capability.
@@ -657,7 +795,13 @@ const ScheduleAlgorithm = {
 
 ---
 
-## **📋 5. Lesson Summary (`lesson-summary.html`)**
+### **See Also**
+- [Lesson Summary](#5-lesson-summary-lesson-summaryhtml-teacher-share) - Finalization and sharing
+- [Student Lesson Handler](#7-student-lesson-handler-student-lessonhtml-student) - How students access shared lessons
+
+---
+
+## **📋 5. Lesson Summary (`lesson-summary.html`)** [teacher] [share]
 
 ### **Purpose**
 Final review of complete lesson with sharing capabilities and QR code generation.
@@ -827,7 +971,13 @@ const ShareManager = {
 
 ---
 
-## **👨‍🎓 6. Student Dashboard (`student-dashboard.html`)**
+### **See Also**
+- [Student Lesson Handler](#7-student-lesson-handler-student-lessonhtml-student) - How students initially access lessons
+- [Lesson Activity](#8-lesson-activity-lesson-activityhtml-student-activity) - Daily learning activities
+
+---
+
+## **👨‍🎓 6. Student Dashboard (`student-dashboard.html`)** [student]
 
 ### **Purpose**
 Central hub for students to view all accessible lessons and track learning progress.
@@ -1026,7 +1176,13 @@ const StudentLessonData = {
 
 ---
 
-## **🔗 7. Student Lesson Handler (`student-lesson.html`)**
+### **See Also**
+- [Lesson Activity](#8-lesson-activity-lesson-activityhtml-student-activity) - Where students go to learn
+- [Error Handling & Edge Cases](#11-error-handling--edge-cases-errors) - Invalid lesson ID scenarios
+
+---
+
+## **🔗 7. Student Lesson Handler (`student-lesson.html`)** [student]
 
 ### **Purpose**
 Process shared lesson URLs and integrate lessons into student's collection.
@@ -1164,7 +1320,13 @@ const ErrorStates = {
 
 ---
 
-## **🎮 8. Lesson Activity (`lesson-activity.html`)**
+### **See Also**
+- [Student Dashboard](#6-student-dashboard-student-dashboardhtml-student) - Return point after completion
+- [Asset Preloading System](#asset-preloading-system-assets) - Critical for smooth experience
+
+---
+
+## **🎮 8. Lesson Activity (`lesson-activity.html`)** [student] [activity]
 
 ### **Purpose**
 Interactive learning environment for vocabulary, phonics, and spelling activities.
@@ -1210,7 +1372,7 @@ Within each activity type: NEW words first, then REVIEW words
 </main>
 ```
 
-### **8.1 Vocabulary Activities**
+### **8.1 Vocabulary Activities** [vocab]
 
 #### **NEW Words (Learning Mode)**
 ```html
@@ -1267,7 +1429,7 @@ Within each activity type: NEW words first, then REVIEW words
 </div>
 ```
 
-### **8.2 Phonics Activities**
+### **8.2 Phonics Activities** [phonics]
 
 #### **Chunk Data Processing**
 ```javascript
@@ -1390,7 +1552,7 @@ const PhonicsManager = {
 </div>
 ```
 
-### **8.3 Spelling Activities**
+### **8.3 Spelling Activities** [spelling]
 
 #### **NEW Words (Learning Sequence)**
 ```html
@@ -1555,7 +1717,7 @@ const ActivityFlow = {
 };
 ```
 
-### **Asset Preloading System**
+### **Asset Preloading System** [assets]
 ```javascript
 const AssetPreloader = {
   cache: new Map(),
@@ -1611,7 +1773,13 @@ const AssetPreloader = {
 
 ---
 
-## **📊 9. Data Schemas & Storage**
+### **See Also**
+- [API Integration & Fallback System](#10-api-integration--fallback-system-assets) - Asset management integration
+- [Error Handling & Edge Cases](#11-error-handling--edge-cases-errors) - Activity interruption scenarios
+
+---
+
+## **📊 9. Data Schemas & Storage** [data]
 
 ### **Lesson Data Schema**
 ```javascript
@@ -1787,7 +1955,13 @@ const StorageManager = {
 
 ---
 
-## **🔧 10. API Integration & Fallback System**
+### **See Also**
+- [Lesson Activity](#8-lesson-activity-lesson-activityhtml-student-activity) - Where schemas are used in practice
+- [Error Handling & Edge Cases](#11-error-handling--edge-cases-errors) - Data corruption recovery
+
+---
+
+## **🔧 10. API Integration & Fallback System** [assets]
 
 ### **Asset Loading Priority**
 1. **Check localStorage cache first**
@@ -1930,7 +2104,7 @@ const AssetManager = {
 };
 ```
 
-### **Phonics Chunks Data Structure**
+### **Phonics Chunks Data Structure** [phonics]
 ```
 // phonics_chunks.txt format
 cat|c,at
@@ -2004,7 +2178,13 @@ const PhonicsChunkManager = {
 
 ---
 
-## **🔍 11. Error Handling & Edge Cases**
+### **See Also**
+- [Asset Preloading System](#asset-preloading-system-assets) - Preloading implementation details
+- [Phonics Activities](#82-phonics-activities-phonics) - Where chunks are used
+
+---
+
+## **🔍 11. Error Handling & Edge Cases** [errors]
 
 ### **Media Asset Failures**
 ```javascript
@@ -2234,7 +2414,13 @@ const ActivityRecovery = {
 
 ---
 
-## **♿ 12. Accessibility Implementation**
+### **See Also**
+- [Data Schemas & Storage](#9-data-schemas--storage-data) - Recovery mechanisms
+- [Progressive Web App (PWA) Implementation](#14-progressive-web-app-pwa-implementation-pwa) - Offline capabilities
+
+---
+
+## **♿ 12. Accessibility Implementation** [a11y]
 
 ### **Screen Reader Support**
 ```html
@@ -2375,7 +2561,7 @@ const KeyboardNav = {
 }
 ```
 
-### **Voice Control Support**
+### **Voice Control Support** [tts]
 ```javascript
 const VoiceControl = {
   init() {
@@ -2426,7 +2612,13 @@ const VoiceControl = {
 
 ---
 
-## **📱 13. Mobile Optimization**
+### **See Also**
+- [Design System Compliance Safety Net](#design-system-compliance-safety-net) - Accessibility requirements
+- [Touch Interaction Patterns](#touch-interaction-patterns) - Mobile-specific implementations
+
+---
+
+## **📱 13. Mobile Optimization** [mobile]
 
 ### **Touch Interaction Patterns**
 ```javascript
@@ -2673,7 +2865,13 @@ const MobileOptimizer = {
 
 ---
 
-## **🔄 14. Progressive Web App (PWA) Implementation**
+### **See Also**
+- [Asset Preloading System](#asset-preloading-system-assets) - Performance optimization techniques
+- [Accessibility Implementation](#12-accessibility-implementation-a11y) - Mobile accessibility patterns
+
+---
+
+## **🔄 14. Progressive Web App (PWA) Implementation** [pwa]
 
 ### **Service Worker Strategy**
 ```javascript
@@ -2945,6 +3143,46 @@ const PWAInstaller = {
   }
 };
 ```
+
+### **See Also**
+- [Error Handling & Edge Cases](#11-error-handling--edge-cases-errors) - Offline error scenarios
+- [Asset Preloading System](#asset-preloading-system-assets) - Caching strategies
+
+---
+
+## **📚 Index of Key Data Structures**
+
+| Data Structure | Location | Purpose |
+|---|---|---|
+| **UserRole** | [Home Page](#data-schema) | Role selection storage |
+| **LessonSchema** | [Data Schemas & Storage](#lesson-data-schema) | Complete lesson structure |
+| **ScheduleDay** | [Data Schemas & Storage](#lesson-data-schema) | Daily word distribution |
+| **StudentProgress** | [Data Schemas & Storage](#student-progress-schema) | Learning progress tracking |
+| **AssetMapping** | [API Integration](#consolidated-words-data-structure) | Word-to-media mapping |
+| **PhonicsChunks** | [API Integration](#phonics-chunks-data-structure-phonics) | Word phonetic breakdown |
+| **ActivityState** | [Lesson Activity](#activity-flow-management) | Current activity progress |
+
+## **🎯 Acceptance Criteria Quick Index**
+
+### **Teacher Flow**
+- **Home Page**: Large touch targets (44px+), role persistence - [Details](#behavior)
+- **Teacher Dashboard**: Empty state handling, lesson card grid - [Details](#behavior-1)
+- **Create Lesson**: Accordion management, drag-and-drop, file import - [Details](#behavior-2)
+- **Schedule Lesson**: Smart distribution, manual adjustment, validation - [Details](#validation-rules)
+- **Lesson Summary**: QR generation, share functionality, testing mode - [Details](#behavior-4)
+
+### **Student Flow**
+- **Student Dashboard**: Progress calculation, day gating, lesson access - [Details](#progress-calculation)
+- **Student Lesson Handler**: URL parsing, lesson integration, error handling - [Details](#url-processing-logic)
+- **Lesson Activity**: Activity sequencing, asset preloading, progress saving - [Details](#activity-flow-management)
+
+### **Technical Requirements**
+- **Data Storage**: Schema validation, corruption recovery, quota management - [Details](#storage-management)
+- **Asset Management**: Fallback hierarchy, caching, offline support - [Details](#asset-manager-implementation)
+- **Error Handling**: Graceful degradation, user-friendly messages - [Details](#media-asset-failures)
+- **Accessibility**: WCAG 2.1 AA, screen readers, keyboard navigation - [Details](#screen-reader-support)
+- **Mobile**: Touch interactions, responsive layouts, performance - [Details](#touch-interaction-patterns)
+- **PWA**: Service worker, offline mode, installation - [Details](#service-worker-strategy)
 
 ---
 
