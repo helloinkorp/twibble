@@ -1,7 +1,0 @@
-{
-  "name": "after-agent-run",
-  "description": "Automatically sync documentation after agent execution",
-  "triggers": ["agent-success"],
-  "onSuccess": "run docs-generator to sync PLAN.md",
-  "onFailure": "do nothing; print next steps"
-}
